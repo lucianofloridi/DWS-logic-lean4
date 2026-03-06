@@ -1,0 +1,13 @@
+name = "papercheck"
+version = "0.1.0"
+defaultTargets = ["papercheck"]
+
+[[lean_lib]]
+name = "Papercheck"
+
+[[lean_exe]]
+name = "papercheck"
+root = "Main"
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"

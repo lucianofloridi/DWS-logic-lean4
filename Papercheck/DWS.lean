@@ -382,6 +382,37 @@ theorem C3_enriched
   rcases hcond v2 hvle2 hφχ with ⟨u, hR, hle, hψ⟩
   exact ⟨u, hR, hle, hψ⟩
 
+/-- (1) F9 implies constraints hold at source. -/
+theorem constraint_at_source {W : Type u} (EM : EModel W) (hF9 : F9 EM)
+    (w : W) (ψ : Form) (h : ψ ∈ EM.F.Con w) : ESat EM w ψ :=
+  hF9 w ψ h
+
+/-- (2) F8 implies constraints propagate to R-successors. -/
+theorem constraint_at_successor {W : Type u} (EM : EModel W) (hF8 : F8 EM)
+    (w u : W) (hR : EM.F.R w u) (ψ : Form) (h : ψ ∈ EM.F.Con w) : ESat EM u ψ :=
+  hF8 w u hR ψ h
+
+/-- Compound admissibility condition: F7 ∧ F8 ∧ F9. -/
+def Admissible {W : Type u} (EM : EModel W) : Prop := F7 EM ∧ F8 EM ∧ F9 EM
+
+/-- (3) Admissible implies constraints hold at source. -/
+theorem admissible_source_constraint {W : Type u} (EM : EModel W)
+    (hA : Admissible EM) (w : W) (ψ : Form) (h : ψ ∈ EM.F.Con w) : ESat EM w ψ :=
+  hA.2.2 w ψ h
+
+/-- (4) Admissible implies constraints propagate to R-successors. -/
+theorem admissible_successor_constraint {W : Type u} (EM : EModel W)
+    (hA : Admissible EM) (w u : W) (hR : EM.F.R w u)
+    (ψ : Form) (h : ψ ∈ EM.F.Con w) : ESat EM u ψ :=
+  hA.2.1 w u hR ψ h
+
+/-- (5) C3 under compound Admissible condition. -/
+theorem C3_admissible {W : Type u} (EM : EModel W)
+    (hA : Admissible EM) (w0 : W) (φ ψ χ : Form)
+    (hχ : χ ∈ EM.F.Con w0) :
+    ESat EM w0 (Form.imp (Form.cond (Form.and φ χ) ψ) (Form.cond φ ψ)) :=
+  C3_enriched EM hA.1 hA.2.2 w0 φ ψ χ hχ
+
 end Enrichment
 
 namespace Bisim

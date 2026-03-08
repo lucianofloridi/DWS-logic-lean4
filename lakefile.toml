@@ -1,0 +1,17 @@
+name = "DWS-lean4"
+version = "0.1.0"
+defaultTargets = ["dws-lean4"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+
+[[lean_lib]]
+name = "DWSLean4"
+
+[[lean_lib]]
+name = "DWS"
+
+[[lean_exe]]
+name = "dws-lean4"
+root = "Main"
